@@ -32,7 +32,7 @@ services:
       - INFLUXDB_TOKEN=mytoken123456789
       - INFLUXDB_ORG=weatherorg
       - INFLUXDB_BUCKET=weather
-      - OPENWEATHER_API_KEY=
+      - OPENWEATHER_API_KEY=f6dc6c5567baa2554a3f6f9e08cbdcb3
       - CITY=Bangkok
       - INTERVAL=300000
     depends_on:
