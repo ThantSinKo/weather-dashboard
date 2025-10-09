@@ -1,0 +1,17 @@
+{
+  "name": "weather-dashboard",
+  "version": "1.0.0",
+  "description": "Weather data collector for InfluxDB",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": ["weather", "influxdb", "grafana", "docker"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@influxdata/influxdb-client": "^1.33.2",
+    "axios": "^1.6.0",
+    "node-fetch": "^2.7.0"
+  }
+}

@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # InfluxDB - Time series database
+  influxdb:
+    image: influxdb:2.7-alpine
+    container_name: weather_influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminpass123
+      - DOCKER_INFLUXDB_INIT_ORG=weatherorg
+      - DOCKER_INFLUXDB_INIT_BUCKET=weather
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=mytoken123456789
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+      - influxdb_config:/etc/influxdb2
+    networks:
+      - weather_network
+    restart: unless-stopped
+
+  # Node.js Weather Collector
+  weather_app:
+    build:
+      context: ./weather-app
+      dockerfile: Dockerfile
+    container_name: weather_collector
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=mytoken123456789
+      - INFLUXDB_ORG=weatherorg
+      - INFLUXDB_BUCKET=weather
+      - OPENWEATHER_API_KEY=f6dc6c5567baa2554a3f6f9e08cbdcb3
+      - CITY=Bangkok
+      - INTERVAL=300000
+    depends_on:
+      - influxdb
+    networks:
+      - weather_network
+    restart: unless-stopped
+
+  # Grafana - Visualization
+  grafana:
+    image: grafana/grafana:10.2.0
+    container_name: weather_grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - influxdb
+    networks:
+      - weather_network
+    restart: unless-stopped
+
+networks:
+  weather_network:
+    driver: bridge
+
+volumes:
+  influxdb_data:
+    driver: local
+  influxdb_config:
+    driver: local
+  grafana_data:
+    driver: local
