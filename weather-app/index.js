@@ -22,7 +22,7 @@ const writeApi = influxDB.getWriteApi(INFLUXDB_ORG, INFLUXDB_BUCKET);
 // Function to fetch weather data
 async function fetchWeatherData() {
     try {
-        if (!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY === 'your_api_key_here') {
+        if (!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY === 'f6dc6c5567baa2554a3f6f9e08cbdcb3') {
             console.log('⚠️  No valid OpenWeather API key provided. Using mock data...');
             return generateMockWeatherData();
         }
