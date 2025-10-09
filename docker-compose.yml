@@ -28,7 +28,7 @@ services:
       dockerfile: Dockerfile
     container_name: weather_collector
     ports:
-      - "5000:5000"
+      - "5001:5001"
     environment:
       - INFLUXDB_URL=http://influxdb:8086
       - INFLUXDB_TOKEN=mytoken123456789
@@ -48,7 +48,7 @@ services:
     image: grafana/grafana:10.2.0
     container_name: weather_grafana
     ports:
-      - "8806:3000"
+      - "3300:3300"
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
