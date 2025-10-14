@@ -27,8 +27,6 @@ services:
       context: ./weather-app
       dockerfile: Dockerfile
     container_name: weather_collector
-    ports:
-      - "5000:5000"
     environment:
       - INFLUXDB_URL=http://influxdb:8086
       - INFLUXDB_TOKEN=mytoken123456789
